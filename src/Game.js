@@ -230,6 +230,52 @@ const Game = (playground) => {
     }
   }
 
+  const gamePadDown = (event) => {
+    switch (event.button) {
+      case 'left':
+        state.player.velocities.x = state.player.speed * -1
+        break
+      case 'right':
+        state.player.velocities.x = state.player.speed
+        break
+      case 'up':
+        state.player.velocities.y = state.player.speed * -1
+        break
+      case 'down':
+        state.player.velocities.y = state.player.speed
+        break
+      case '1': // A
+        state.player.weapons.find(w => w.name === 'Gun').triggerDown = true
+        break
+      case '2': // B
+        state.player.weapons.find(w => w.name === 'Cannon').triggerDown = true
+        break
+    }
+  }
+
+  const gamePadUp = (event) => {
+    switch (event.button) {
+      case 'left':
+        state.player.velocities.x = 0
+        break
+      case 'right':
+        state.player.velocities.x = 0
+        break
+      case 'up':
+        state.player.velocities.y = 0
+        break
+      case 'down':
+        state.player.velocities.y = 0
+        break
+      case '1': // A
+        state.player.weapons.find(w => w.name === 'Gun').triggerDown = false
+        break
+      case '2': // B
+        state.player.weapons.find(w => w.name === 'Cannon').triggerDown = false
+        break
+    }
+  }
+
   const init = () => {
     // Abstract playground methods.
     playground.create = preloadAssets
@@ -238,6 +284,8 @@ const Game = (playground) => {
     playground.step = updateState
     playground.keyup = onKeyUp
     playground.keydown = onKeyDown
+    playground.gamepaddown = gamePadDown
+    playground.gamepadup = gamePadUp
   }
 
   return {
