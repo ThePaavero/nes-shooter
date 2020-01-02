@@ -2,6 +2,6 @@
   "width": 256,
   "height": 240,
   "scale": 1,
-  "drawScanLines": false,
+  "drawScanLines": true,
   "debugState": false
 }

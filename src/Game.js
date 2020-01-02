@@ -57,7 +57,6 @@ const Game = (playground) => {
         }, duration, easing)
       outTween.on('finish', () => {
         state.enemies = state.enemies.filter(e => e !== enemy)
-        console.log(state.enemies.length)
       })
     })
 
