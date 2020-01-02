@@ -30,8 +30,43 @@ const Game = (playground) => {
     updateWeapons()
   }
 
+  const getWeaponObject = (weaponName) => {
+    return state.player.weapons.find(w => w.name === weaponName)
+  }
+
+  const getCurrentMs = () => {
+    return Date.now()
+  }
+
+  const okToFireProjectile = (weaponName) => {
+    const weapon = getWeaponObject(weaponName)
+    return getCurrentMs() - weapon.lastShotTimestamp > weapon.millisecondsBetweenProjectiles
+  }
+
+  const fireProjectile = (weaponName) => {
+    const weapon = getWeaponObject(weaponName)
+    weapon.lastShotTimestamp = getCurrentMs()
+    const y = state.player.y
+    weapon.projectiles.push({
+      x: state.player.x + 3,
+      y,
+      width: weapon.projectileWidth,
+      height: weapon.projectileHeight,
+    })
+    weapon.projectiles.push({
+      x: state.player.x + state.player.width - 3,
+      y,
+      width: weapon.projectileWidth,
+      height: weapon.projectileHeight,
+    })
+  }
+
   const updateWeapons = () => {
-    console.log(state.player.weapons.find(w => w.name === 'Gun').triggerDown)
+    state.player.weapons.forEach(weapon => {
+      if (weapon.triggerDown && okToFireProjectile(weapon.name)) {
+        fireProjectile(weapon.name)
+      }
+    })
   }
 
   const updateDebugView = () => {
@@ -43,6 +78,14 @@ const Game = (playground) => {
       DebugView.update(state)
       debugTickCounter = 0
     }
+  }
+
+  const drawProjectiles = () => {
+    state.player.weapons.forEach(weapon => {
+      weapon.projectiles.forEach(projectile => {
+        playground.layer.drawImage(playground.images[weapon.imageSlug], projectile.x, projectile.y, projectile.width, projectile.height)
+      })
+    })
   }
 
   const centerPlayer = () => {
@@ -57,10 +100,10 @@ const Game = (playground) => {
     // Draw player.
     playground.layer.drawImage(playground.images.playerShip, state.player.x, state.player.y, state.player.width, state.player.height)
 
-    // playground.layer.drawImage(playground.images.scanlines, 0, 0, playground.width, playground.height+1)
-    var pattern = playground.layer.context.createPattern(playground.images.scanlinePattern, 'repeat')
-    playground.layer.context.fillStyle = pattern
+    playground.layer.context.fillStyle = playground.layer.context.createPattern(playground.images.scanlinePattern, 'repeat')
     playground.layer.context.fillRect(0, 0, playground.width, playground.height)
+
+    drawProjectiles()
   }
 
   const onKeyUp = (data) => {
@@ -88,6 +131,9 @@ const Game = (playground) => {
       case 'comma':
         state.player.weapons.find(w => w.name === 'Gun').triggerDown = false
         break
+      case 'period':
+        state.player.weapons.find(w => w.name === 'Cannon').triggerDown = false
+        break
     }
   }
 
@@ -108,6 +154,9 @@ const Game = (playground) => {
         break
       case 'comma':
         state.player.weapons.find(w => w.name === 'Gun').triggerDown = true
+        break
+      case 'period':
+        state.player.weapons.find(w => w.name === 'Cannon').triggerDown = true
         break
     }
   }
