@@ -28,11 +28,28 @@ const Game = (playground) => {
     }
     const imageSlug = `enemy${enemyType}`
     const image = playground.images[imageSlug]
-    state.enemies.push({
+    const enemy = {
       x: _.random(0, playground.width - enemyDimensions.width),
       y: -100,
       image,
-    })
+    }
+    state.enemies.push(enemy)
+
+    // Movement with tweens.
+    const easing = 'inOutExpo'
+    const duration = 3
+    playground.tween(enemy)
+      .to({
+        x: _.random(-20, playground.width + 20),
+        y: _.random(-20, playground.height + 20),
+      }, duration, easing)
+      .to({
+        x: _.random(-20, playground.width + 20),
+        y: _.random(-20, playground.height + 20),
+      }, duration, easing)
+      .loop()
+
+    // Next!
     setTimeout(spawnEnemy, _.random(100, 3000))
   }
 
@@ -77,11 +94,10 @@ const Game = (playground) => {
   }
 
   const updateEnemies = () => {
-    state.enemies.forEach(enemy => {
-      // Tween...
-      enemy.x += 0
-      enemy.y += state.gameSpeed
-    })
+    // state.enemies.forEach(enemy => {
+    //   enemy.x += 0
+    //   enemy.y += state.gameSpeed
+    // })
   }
 
   const updateState = () => {
