@@ -38,7 +38,8 @@ const Game = (playground) => {
     // Movement with tweens.
     const easing = 'inOutExpo'
     const duration = 3
-    playground.tween(enemy)
+
+    const tween = playground.tween(enemy)
       .to({
         x: _.random(-20, playground.width + 20),
         y: _.random(-20, playground.height + 20),
@@ -47,7 +48,18 @@ const Game = (playground) => {
         x: _.random(-20, playground.width + 20),
         y: _.random(-20, playground.height + 20),
       }, duration, easing)
-      .loop()
+
+    tween.on('finish', () => {
+      const outTween = playground.tween(enemy)
+        .to({
+          x: _.random(-20, playground.width + 20),
+          y: playground.height,
+        }, duration, easing)
+      outTween.on('finish', () => {
+        state.enemies = state.enemies.filter(e => e !== enemy)
+        console.log(state.enemies.length)
+      })
+    })
 
     // Next!
     setTimeout(spawnEnemy, _.random(100, 3000))
@@ -95,8 +107,7 @@ const Game = (playground) => {
 
   const updateEnemies = () => {
     // state.enemies.forEach(enemy => {
-    //   enemy.x += 0
-    //   enemy.y += state.gameSpeed
+    //   enemy.y += state.gameSpeed / 2
     // })
   }
 
