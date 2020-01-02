@@ -121,6 +121,11 @@ const Game = (playground) => {
     )
   }
 
+  const punishEnemy = (enemy, projectile) => {
+    console.log(projectile)
+    state.enemies = state.enemies.filter(e => e !== enemy)
+  }
+
   const doCollisionDetection = () => {
     const enemiesToTakeHit = []
     const projectilesToDestroy = []
@@ -128,17 +133,21 @@ const Game = (playground) => {
       weapon.projectiles.forEach(projectile => {
         state.enemies.forEach(enemy => {
           if (objectsOverlap(enemy, projectile)) {
-            enemiesToTakeHit.push(enemy)
+            enemiesToTakeHit.push({
+              enemy,
+              projectile
+            })
             projectilesToDestroy.push(projectile)
           }
         })
       })
     })
-    enemiesToTakeHit.forEach(enemy => {
-      state.enemies = state.enemies.filter(e => e !== enemy)
+    enemiesToTakeHit.forEach(enemyProjectilePair => {
+      const enemy = enemyProjectilePair.enemy
+      const projectile = enemyProjectilePair.projectile
+      punishEnemy(enemy, projectile)
     })
     projectilesToDestroy.forEach(projectile => {
-      console.log(projectile)
       state.player.weapons.forEach(weapon => {
         weapon.projectiles = weapon.projectiles.filter(p => p !== projectile)
       })
@@ -178,6 +187,7 @@ const Game = (playground) => {
       width: weapon.projectileWidth,
       height: weapon.projectileHeight,
       speed: weapon.speed,
+      weapon,
     })
     weapon.projectiles.push({
       x: state.player.x + state.player.width - 3 - (weapon.projectileWidth / 2),
@@ -307,7 +317,6 @@ const Game = (playground) => {
   }
 
   const onKeyDown = (data) => {
-    // console.log(data.key)
     switch (data.key) {
       case 'left':
         state.player.velocities.x = state.player.speed * -1
