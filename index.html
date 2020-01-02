@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Playground Boilerplate with ES6</title>
+  <style>
+    html, body {
+      min-width: 100vw;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    canvas {
+      width: 100%;
+      height: auto;
+    }
+
+    .state-debugger {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 200px;
+      overflow: auto;
+      background: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      font-family: monospace;
+      text-align: left;
+      z-index: 10000;
+      padding: 4px;
+      font-size: 9px;
+      opacity: 0.1;
+    }
+
+    .state-debugger.active {
+      opacity: 1;
+    }
+
+    .state-debugger pre {
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+<div id="game"></div>
+<div class="state-debugger"></div>
+<script type="text/javascript" src="dist/bundle.js"></script>
+</body>
+</html>
