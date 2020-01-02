@@ -32,6 +32,8 @@ const Game = (playground) => {
       x: _.random(0, playground.width - enemyDimensions.width),
       y: -100,
       image,
+      width: enemyDimensions.width,
+      height: enemyDimensions.height,
     }
     state.enemies.push(enemy)
 
@@ -110,6 +112,31 @@ const Game = (playground) => {
     // })
   }
 
+  const objectsOverlap = (a, b) => {
+    return !(
+      ((a.y + a.height) < (b.y)) ||
+      (a.y > (b.y + b.height)) ||
+      ((a.x + a.width) < b.x) ||
+      (a.x > (b.x + b.width))
+    )
+  }
+
+  const doCollisionDetection = () => {
+    const enemiesToDestroy = []
+    state.player.weapons.forEach(weapon => {
+      weapon.projectiles.forEach(projectile => {
+        state.enemies.forEach(enemy => {
+          if (objectsOverlap(enemy, projectile)) {
+            enemiesToDestroy.push(enemy)
+          }
+        })
+      })
+    })
+    enemiesToDestroy.forEach(enemy => {
+      state.enemies = state.enemies.filter(e => e !== enemy)
+    })
+  }
+
   const updateState = () => {
     updatePlayer()
     updateEnemies()
@@ -117,6 +144,7 @@ const Game = (playground) => {
     updateDebugView()
     updateWeapons()
     updateProjectiles()
+    doCollisionDetection()
   }
 
   const getWeaponObject = (weaponName) => {
