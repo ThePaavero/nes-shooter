@@ -42,7 +42,7 @@ const Game = (playground) => {
 
     // Movement with tweens.
     const easing = 'inOutExpo'
-    const duration = 3
+    const duration = 5
 
     const tween = playground.tween(enemy)
       .to({
@@ -51,7 +51,7 @@ const Game = (playground) => {
       }, duration, easing)
       .to({
         x: _.random(-20, playground.width + 20),
-        y: _.random(-20, playground.height + 20),
+        y: _.random(-20, playground.height - 200),
       }, duration, easing)
 
     tween.on('finish', () => {
