@@ -167,6 +167,9 @@ const Game = (playground) => {
   }
 
   const updateState = () => {
+    if (!state.gameRunning) {
+      return
+    }
     updatePlayer()
     updateEnemies()
     updateStars()
@@ -262,16 +265,30 @@ const Game = (playground) => {
 
   const drawEnemies = () => {
     state.enemies.forEach(enemy => {
+
       // "Health bar."
       const context = playground.layer.context
+      const healthBarX = enemy.x - 10
+      const healthBarY = enemy.y - 10
+      const minHealthToColor = {
+        0.2: '#b51258',
+        0.5: '#fe8358',
+        0.7: '#148e00',
+        1: '#49ec35',
+      }
+      context.fillStyle = minHealthToColor[1]
+      Object.keys(minHealthToColor).forEach((color, minHealth) => {
+        if (enemy.health < minHealth) {
+          context.fillStyle = color
+        }
+      })
 
-      context.fillStyle = '#009900'
       const healthBarWidth = enemy.health * 20
-      context.fillRect(enemy.x, enemy.y, healthBarWidth, 3)
+      context.fillRect(healthBarX, healthBarY, healthBarWidth, 3)
 
       context.strokeStyle = "#fff"
       context.lineWidth = 1
-      context.strokeRect(enemy.x, enemy.y, 20, 3)
+      context.strokeRect(healthBarX, healthBarY, 20, 3)
 
       playground.layer.drawImage(enemy.hit ? enemy.imageHit : enemy.image, enemy.x, enemy.y)
     })
@@ -405,6 +422,9 @@ const Game = (playground) => {
         break
       case '2': // B
         state.player.weapons.find(w => w.name === 'Cannon').triggerDown = false
+        break
+      case 'start':
+        state.gameRunning = !state.gameRunning
         break
     }
   }
