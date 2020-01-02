@@ -22,10 +22,12 @@ const Game = (playground) => {
   const createStars = () => {
     let amount = 60
     while (amount--) {
+      const type = _.random(0, 3) === 0 ? 'big' : 'small'
       state.stars.push({
         x: _.random(0, playground.width),
         y: _.random(0, playground.height),
-        image: playground.images[`${_.random(0, 3) === 0 ? 'big' : 'small'}Star`],
+        image: playground.images[`${type}Star`],
+        type,
       })
     }
   }
@@ -116,7 +118,9 @@ const Game = (playground) => {
 
   const updateStars = () => {
     state.stars.forEach(star => {
-      star.y += state.gameSpeed
+      const toAdd = state.gameSpeed + (star.type === 'big' ? 0.3 : 0)
+      star.y += toAdd
+
       if (star.y > playground.height) {
         star.y = _.random(10, 100) * -1
       }
