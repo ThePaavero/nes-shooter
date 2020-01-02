@@ -122,18 +122,26 @@ const Game = (playground) => {
   }
 
   const doCollisionDetection = () => {
-    const enemiesToDestroy = []
+    const enemiesToTakeHit = []
+    const projectilesToDestroy = []
     state.player.weapons.forEach(weapon => {
       weapon.projectiles.forEach(projectile => {
         state.enemies.forEach(enemy => {
           if (objectsOverlap(enemy, projectile)) {
-            enemiesToDestroy.push(enemy)
+            enemiesToTakeHit.push(enemy)
+            projectilesToDestroy.push(projectile)
           }
         })
       })
     })
-    enemiesToDestroy.forEach(enemy => {
+    enemiesToTakeHit.forEach(enemy => {
       state.enemies = state.enemies.filter(e => e !== enemy)
+    })
+    projectilesToDestroy.forEach(projectile => {
+      console.log(projectile)
+      state.player.weapons.forEach(weapon => {
+        weapon.projectiles = weapon.projectiles.filter(p => p !== projectile)
+      })
     })
   }
 
