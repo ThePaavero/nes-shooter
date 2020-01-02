@@ -44,7 +44,7 @@ const Game = (playground) => {
     const tween = playground.tween(enemy)
       .to({
         x: _.random(-20, playground.width + 20),
-        y: _.random(-20, playground.height + 20),
+        y: _.random(-20, playground.height - 500),
       }, duration, easing)
       .to({
         x: _.random(-20, playground.width + 20),
@@ -192,6 +192,9 @@ const Game = (playground) => {
     state.player.weapons.forEach(weapon => {
       weapon.projectiles.forEach(projectile => {
         projectile.y -= projectile.speed
+        if (projectile.y < 0) {
+          weapon.projectiles = weapon.projectiles.filter(p => p !== projectile)
+        }
       })
     })
   }
