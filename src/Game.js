@@ -31,7 +31,7 @@ const Game = (playground) => {
     const imageHit = playground.images[imageSlug + 'Hit']
     const enemy = {
       x: _.random(0, playground.width - enemyDimensions.width),
-      y: -100,
+      y: -50,
       image,
       imageHit,
       width: enemyDimensions.width,
@@ -47,11 +47,11 @@ const Game = (playground) => {
     const tween = playground.tween(enemy)
       .to({
         x: _.random(-20, playground.width + 20),
-        y: _.random(-20, playground.height - 500),
+        y: _.random(-20, playground.height / 2),
       }, duration, easing)
       .to({
         x: _.random(-20, playground.width + 20),
-        y: _.random(-20, playground.height - 200),
+        y: _.random(-20, playground.height - 30),
       }, duration, easing)
 
     tween.on('finish', () => {
@@ -124,6 +124,29 @@ const Game = (playground) => {
     )
   }
 
+  const createBoom = (x, y, w, h, color) => {
+    const magnitude = Math.abs(w / h)
+    const spread = 3
+    let pixelAmount = Math.round(magnitude) * 3
+    while (pixelAmount--) {
+      const position = {
+        x: (x - w / 2) + _.random(spread * -1, spread),
+        y: (x - h / 2) + _.random(spread * -1, spread),
+      }
+      const pieceOfDebris = {
+        x: position.x,
+        y: position.y,
+        color,
+      }
+      state.debris.push(pieceOfDebris)
+      playground.tween(pieceOfDebris)
+        .to({
+          x: x += _.random(spread * -1, spread),
+          y: y += _.random(spread * -1, spread),
+        }, 0.3)
+    }
+  }
+
   const punishEnemy = (enemy, projectile) => {
     enemy.health -= projectile.weapon.damage
 
@@ -133,7 +156,7 @@ const Game = (playground) => {
     }, 30)
 
     if (enemy.health < 0) {
-      // @todo Create a boom.
+      // createBoom(enemy.x, enemy.y, enemy.width, enemy.height, '#31ddef')
       state.enemies = state.enemies.filter(e => e !== enemy)
     }
   }
@@ -263,6 +286,13 @@ const Game = (playground) => {
     })
   }
 
+  const drawDebris = () => {
+    state.debris.forEach(pieceOfDebris => {
+      playground.layer.context.fillStyle = pieceOfDebris.color
+      playground.layer.context.fillRect(pieceOfDebris.x, pieceOfDebris.y, 1, 1)
+    })
+  }
+
   const drawEnemies = () => {
     state.enemies.forEach(enemy => {
 
@@ -321,6 +351,7 @@ const Game = (playground) => {
 
     drawEnemies()
     drawProjectiles()
+    drawDebris()
     if (config.drawScanLines) {
       drawScanLines()
     }
