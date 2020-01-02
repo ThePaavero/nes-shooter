@@ -17,6 +17,23 @@ const Game = (playground) => {
   const onReady = () => {
     centerPlayer()
     createStars()
+    spawnEnemy()
+  }
+
+  const spawnEnemy = () => {
+    const enemyType = 'BlueHeavy'
+    const enemyDimensions = {
+      width: 33,
+      height: 24,
+    }
+    const imageSlug = `enemy${enemyType}`
+    const image = playground.images[imageSlug]
+    state.enemies.push({
+      x: _.random(0, playground.width - enemyDimensions.width),
+      y: -100,
+      image,
+    })
+    setTimeout(spawnEnemy, _.random(100, 3000))
   }
 
   const createStars = () => {
@@ -59,8 +76,17 @@ const Game = (playground) => {
     keepWithinArea(state.player)
   }
 
+  const updateEnemies = () => {
+    state.enemies.forEach(enemy => {
+      // Tween...
+      enemy.x += 0
+      enemy.y += state.gameSpeed
+    })
+  }
+
   const updateState = () => {
     updatePlayer()
+    updateEnemies()
     updateStars()
     updateDebugView()
     updateWeapons()
@@ -146,6 +172,12 @@ const Game = (playground) => {
     })
   }
 
+  const drawEnemies = () => {
+    state.enemies.forEach(enemy => {
+      playground.layer.drawImage(enemy.image, enemy.x, enemy.y)
+    })
+  }
+
   const drawStars = () => {
     state.stars.forEach(star => {
       playground.layer.drawImage(star.image, star.x, star.y)
@@ -157,7 +189,7 @@ const Game = (playground) => {
     state.player.y = playground.height - 50
   }
 
-  const drawScanlines = () => {
+  const drawScanLines = () => {
     playground.layer.context.fillStyle = playground.layer.context.createPattern(playground.images.scanlinePattern, 'repeat')
     playground.layer.context.fillRect(0, 0, playground.width, playground.height)
   }
@@ -171,8 +203,11 @@ const Game = (playground) => {
     // Draw player.
     playground.layer.drawImage(playground.images.playerShip, state.player.x, state.player.y, state.player.width, state.player.height)
 
+    drawEnemies()
     drawProjectiles()
-    drawScanlines()
+    if (config.drawScanLines) {
+      drawScanLines()
+    }
   }
 
   const onKeyUp = (data) => {
