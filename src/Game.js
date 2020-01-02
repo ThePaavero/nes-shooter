@@ -2,6 +2,7 @@ import state from './state'
 import imagesArray from './images'
 import config from './config'
 import DebugView from './lib/DebugView'
+import _ from 'lodash'
 
 const Game = (playground) => {
 
@@ -15,6 +16,18 @@ const Game = (playground) => {
 
   const onReady = () => {
     centerPlayer()
+    createStars()
+  }
+
+  const createStars = () => {
+    let amount = 60
+    while (amount--) {
+      state.stars.push({
+        x: _.random(0, playground.width),
+        y: _.random(0, playground.height),
+        image: playground.images[`${_.random(0, 3) === 0 ? 'big' : 'small'}Star`],
+      })
+    }
   }
 
   const preloadAssets = () => {
@@ -23,11 +36,33 @@ const Game = (playground) => {
     })
   }
 
-  const updateState = () => {
+  const keepWithinArea = (actor) => {
+    if (actor.x < 0) {
+      actor.x = 0
+    } else if (actor.x > playground.width - actor.width) {
+      actor.x = playground.width - actor.width
+    }
+
+    if (actor.y < 0) {
+      actor.y = 0
+    } else if (actor.y > playground.height - actor.height) {
+      actor.y = playground.height - actor.height
+    }
+  }
+
+  const updatePlayer = () => {
     state.player.x += state.player.velocities.x
     state.player.y += state.player.velocities.y
+
+    keepWithinArea(state.player)
+  }
+
+  const updateState = () => {
+    updatePlayer()
+    updateStars()
     updateDebugView()
     updateWeapons()
+    updateProjectiles()
   }
 
   const getWeaponObject = (weaponName) => {
@@ -46,7 +81,7 @@ const Game = (playground) => {
   const fireProjectile = (weaponName) => {
     const weapon = getWeaponObject(weaponName)
     weapon.lastShotTimestamp = getCurrentMs()
-    const y = state.player.y
+    const y = state.player.y + 10
     weapon.projectiles.push({
       x: state.player.x + 3,
       y,
@@ -69,12 +104,22 @@ const Game = (playground) => {
         fireProjectile(weapon.name)
       }
     })
+  }
 
-    // Projectiles.
+  const updateProjectiles = () => {
     state.player.weapons.forEach(weapon => {
       weapon.projectiles.forEach(projectile => {
         projectile.y -= projectile.speed
       })
+    })
+  }
+
+  const updateStars = () => {
+    state.stars.forEach(star => {
+      star.y += state.gameSpeed
+      if (star.y > playground.height) {
+        star.y = _.random(10, 100) * -1
+      }
     })
   }
 
@@ -97,22 +142,33 @@ const Game = (playground) => {
     })
   }
 
+  const drawStars = () => {
+    state.stars.forEach(star => {
+      playground.layer.drawImage(star.image, star.x, star.y)
+    })
+  }
+
   const centerPlayer = () => {
     state.player.x = centers.x - state.player.width / 2
-    state.player.y = centers.y - state.player.height / 2
+    state.player.y = playground.height - 50
+  }
+
+  const drawScanlines = () => {
+    playground.layer.context.fillStyle = playground.layer.context.createPattern(playground.images.scanlinePattern, 'repeat')
+    playground.layer.context.fillRect(0, 0, playground.width, playground.height)
   }
 
   const draw = () => {
     // Clear frame.
     playground.layer.clear('#000')
 
+    drawStars()
+
     // Draw player.
     playground.layer.drawImage(playground.images.playerShip, state.player.x, state.player.y, state.player.width, state.player.height)
 
-    playground.layer.context.fillStyle = playground.layer.context.createPattern(playground.images.scanlinePattern, 'repeat')
-    playground.layer.context.fillRect(0, 0, playground.width, playground.height)
-
     drawProjectiles()
+    drawScanlines()
   }
 
   const onKeyUp = (data) => {
