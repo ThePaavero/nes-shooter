@@ -262,6 +262,17 @@ const Game = (playground) => {
 
   const drawEnemies = () => {
     state.enemies.forEach(enemy => {
+      // "Health bar."
+      const context = playground.layer.context
+
+      context.fillStyle = '#009900'
+      const healthBarWidth = enemy.health * 20
+      context.fillRect(enemy.x, enemy.y, healthBarWidth, 3)
+
+      context.strokeStyle = "#fff"
+      context.lineWidth = 1
+      context.strokeRect(enemy.x, enemy.y, 20, 3)
+
       playground.layer.drawImage(enemy.hit ? enemy.imageHit : enemy.image, enemy.x, enemy.y)
     })
   }
