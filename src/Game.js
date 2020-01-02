@@ -126,11 +126,11 @@ const Game = (playground) => {
 
   const punishEnemy = (enemy, projectile) => {
     enemy.health -= projectile.weapon.damage
-    /*const originalImageSrc = enemy.image.src
-    enemy.image = enemy.imageHit
+
+    enemy.hit = true
     setTimeout(() => {
-      enemy.image.src = originalImageSrc
-    }, 100)*/
+      enemy.hit = false
+    }, 30)
 
     if (enemy.health < 0) {
       // @todo Create a boom.
@@ -262,7 +262,7 @@ const Game = (playground) => {
 
   const drawEnemies = () => {
     state.enemies.forEach(enemy => {
-      playground.layer.drawImage(enemy.image, enemy.x, enemy.y)
+      playground.layer.drawImage(enemy.hit ? enemy.imageHit : enemy.image, enemy.x, enemy.y)
     })
   }
 
