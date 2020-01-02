@@ -52,12 +52,14 @@ const Game = (playground) => {
       y,
       width: weapon.projectileWidth,
       height: weapon.projectileHeight,
+      speed: weapon.speed,
     })
     weapon.projectiles.push({
       x: state.player.x + state.player.width - 3,
       y,
       width: weapon.projectileWidth,
       height: weapon.projectileHeight,
+      speed: weapon.speed,
     })
   }
 
@@ -66,6 +68,13 @@ const Game = (playground) => {
       if (weapon.triggerDown && okToFireProjectile(weapon.name)) {
         fireProjectile(weapon.name)
       }
+    })
+
+    // Projectiles.
+    state.player.weapons.forEach(weapon => {
+      weapon.projectiles.forEach(projectile => {
+        projectile.y -= projectile.speed
+      })
     })
   }
 

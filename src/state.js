@@ -7,7 +7,7 @@ export default {
     y: 0,
     width: 27,
     height: 21,
-    speed: 3,
+    speed: 2,
     velocities: {
       x: 0,
       y: 0,
@@ -15,10 +15,10 @@ export default {
     weapons: [
       {
         name: 'Gun',
-        speed: 10,
+        speed: 3,
         triggerDown: false,
         lastShotTimestamp: Date.now(),
-        millisecondsBetweenProjectiles: 30,
+        millisecondsBetweenProjectiles: 50,
         imageSlug: 'playerGunBullet',
         projectileWidth: 1,
         projectileHeight: 3,
@@ -26,7 +26,7 @@ export default {
       },
       {
         name: 'Cannon',
-        speed: 3,
+        speed: 2,
         triggerDown: false,
         lastShotTimestamp: Date.now(),
         millisecondsBetweenProjectiles: 200,

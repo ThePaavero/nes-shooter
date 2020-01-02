@@ -1846,7 +1846,10 @@ PLAYGROUND.GameLoop = function(app) {
 
     if (app.killed) return;
 
-    requestAnimationFrame(gameLoop);
+    // requestAnimationFrame(gameLoop);
+    setTimeout(() => {
+      requestAnimationFrame(gameLoop);
+    }, 1000 / 60)
 
     if (app.frameskip) {
       frame++;
