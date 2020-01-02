@@ -7,6 +7,7 @@ const playground = new PLAYGROUND.Application({
   width: config.width,
   height: config.height,
   scale: config.scale,
+  smoothing: false,
 
   // Don't need these, but leaving them commented for reference. Remember to remap these to your own methods (if you want to keep it abstracted).
   /*

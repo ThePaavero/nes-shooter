@@ -28,12 +28,15 @@ const Game = (playground) => {
     }
     const imageSlug = `enemy${enemyType}`
     const image = playground.images[imageSlug]
+    const imageHit = playground.images[imageSlug + 'Hit']
     const enemy = {
       x: _.random(0, playground.width - enemyDimensions.width),
       y: -100,
       image,
+      imageHit,
       width: enemyDimensions.width,
       height: enemyDimensions.height,
+      health: 1,
     }
     state.enemies.push(enemy)
 
@@ -122,8 +125,17 @@ const Game = (playground) => {
   }
 
   const punishEnemy = (enemy, projectile) => {
-    console.log(projectile)
-    state.enemies = state.enemies.filter(e => e !== enemy)
+    enemy.health -= projectile.weapon.damage
+    /*const originalImageSrc = enemy.image.src
+    enemy.image = enemy.imageHit
+    setTimeout(() => {
+      enemy.image.src = originalImageSrc
+    }, 100)*/
+
+    if (enemy.health < 0) {
+      // @todo Create a boom.
+      state.enemies = state.enemies.filter(e => e !== enemy)
+    }
   }
 
   const doCollisionDetection = () => {
@@ -195,6 +207,7 @@ const Game = (playground) => {
       width: weapon.projectileWidth,
       height: weapon.projectileHeight,
       speed: weapon.speed,
+      weapon,
     })
   }
 
