@@ -83,14 +83,14 @@ const Game = (playground) => {
     weapon.lastShotTimestamp = getCurrentMs()
     const y = state.player.y + 10
     weapon.projectiles.push({
-      x: state.player.x + 3,
+      x: (state.player.x + 3) - (weapon.projectileWidth / 2),
       y,
       width: weapon.projectileWidth,
       height: weapon.projectileHeight,
       speed: weapon.speed,
     })
     weapon.projectiles.push({
-      x: state.player.x + state.player.width - 3,
+      x: state.player.x + state.player.width - 3 - (weapon.projectileWidth / 2),
       y,
       width: weapon.projectileWidth,
       height: weapon.projectileHeight,
