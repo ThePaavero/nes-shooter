@@ -87,6 +87,7 @@ const Game = (playground) => {
   }
 
   const preloadAssets = () => {
+    playground.loadFont('VT323')
     imagesArray.forEach(name => {
       playground.loadImage(name)
     })
@@ -229,12 +230,12 @@ const Game = (playground) => {
       state.enemyProjectiles = state.enemyProjectiles.filter(p => p !== projectile)
     })
     if (state.player.health < 0) {
+      state.player.health = 1
       loseLife()
     }
   }
 
   const gameOver = () => {
-    window.alert('lol u ded')
     window.location.reload()
   }
 
@@ -243,6 +244,13 @@ const Game = (playground) => {
     if (state.player.lives < 1) {
       gameOver()
     }
+  }
+
+  const drawInfoBar = () => {
+    const text = `LIVES: ${state.player.lives}`
+    playground.layer.fillStyle('#fff')
+    playground.layer.font('11px VT323')
+    playground.layer.fillText(text, 10, 10)
   }
 
   const updateState = () => {
@@ -421,6 +429,7 @@ const Game = (playground) => {
     drawProjectiles()
     drawPlayer()
     drawDebris()
+    drawInfoBar()
     if (config.drawScanLines) {
       drawScanLines()
     }
