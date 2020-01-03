@@ -18,6 +18,8 @@ const Game = (playground) => {
     centerPlayer()
     createStars()
     spawnEnemy()
+    window.addEventListener('resize', handleAspectRatio)
+    handleAspectRatio()
   }
 
   const spawnEnemy = () => {
@@ -465,7 +467,22 @@ const Game = (playground) => {
     }
 
     // Draw shield.
-    playground.layer.drawImage(playground.images.shield, state.player.x, state.player.y - 10, 33, 21)
+    playground.layer.drawImage(playground.images.shield, state.player.x-5, state.player.y - 10, 37, 21)
+  }
+
+  const handleAspectRatio = () => {
+    const canvas = document.querySelector('canvas')
+    if (window.innerHeight < canvas.getBoundingClientRect().height) {
+      canvas.style.height = window.innerHeight + 'px'
+      canvas.style.width = 'auto'
+    } else {
+      canvas.style.width = window.innerWidth + 'px'
+      if (canvas.getBoundingClientRect().height > window.innerHeight) {
+        canvas.style.height = window.innerHeight + 'px'
+      } else {
+        canvas.style.height = 'auto'
+      }
+    }
   }
 
   const draw = () => {
