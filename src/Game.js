@@ -261,6 +261,25 @@ const Game = (playground) => {
     }
   }
 
+  const updateStick = () => {
+    if (playground.gamepads.length < 1 || !playground.gamepads[0]) {
+      return
+    }
+    const stick = playground.gamepads[0].sticks[0]
+    const threshold = 0.5
+    if (Math.abs(stick.x) > threshold) {
+      state.player.velocities.x = stick.x > 0 ? state.player.speed : state.player.speed * -1
+    } else {
+      state.player.velocities.x = 0
+    }
+
+    if (Math.abs(stick.y) > threshold) {
+      state.player.velocities.y = stick.y > 0 ? state.player.speed : state.player.speed * -1
+    } else {
+      state.player.velocities.y = 0
+    }
+  }
+
   const updateState = () => {
     if (!state.gameRunning) {
       return
@@ -272,6 +291,7 @@ const Game = (playground) => {
     updateWeapons()
     updateProjectiles()
     doCollisionDetection()
+    // updateStick()
   }
 
   const getWeaponObject = (weaponName) => {
