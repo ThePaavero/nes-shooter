@@ -89,7 +89,17 @@ const Game = (playground) => {
   }
 
   const preloadAssets = () => {
+
+    [
+      'boom',
+      'blip',
+      'pew',
+    ].forEach(soundFile => {
+      playground.loadSounds(soundFile)
+    })
+
     playground.loadFont('PixelEmulatorxq08')
+
     imagesArray.forEach(name => {
       playground.loadImage(name)
     })
@@ -138,8 +148,12 @@ const Game = (playground) => {
   }
 
   const hurtPlayer = (removeHealth) => {
+    if (config.invincible) {
+      return
+    }
     if (state.player.shieldUp) {
       // @todo Destroy shield?
+      playground.sound.play('blip')
       return
     }
     state.player.health -= removeHealth
@@ -159,24 +173,28 @@ const Game = (playground) => {
   }
 
   const createBoom = (x, y, w, h, color) => {
-    const magnitude = Math.abs(w / h)
-    const spread = 3
+
+    playground.sound.play('boom')
+
+    const magnitude = 3
+    const spread = 10
     let pixelAmount = Math.round(magnitude) * 3
     while (pixelAmount--) {
       const position = {
-        x: (x + w / 2) + _.random(spread * -1, spread),
-        y: (y + h / 2) + _.random(spread * -1, spread),
+        x: (x + (w / 2)) + _.random(spread * -1, spread),
+        y: (y + (h / 2)) + _.random(spread * -1, spread),
       }
       const pieceOfDebris = {
         x: position.x,
         y: position.y,
+        size: _.random(1, 4),
         color,
       }
       state.debris.push(pieceOfDebris)
       const tween = playground.tween(pieceOfDebris)
         .to({
-          x: x += _.random(spread * -1, spread),
-          y: y += _.random(spread * -1, spread),
+          x: position.x + _.random(spread * -1, spread),
+          y: (position.y + _.random(spread * -1, spread)) + state.gameSpeed,
         }, 0.3)
       tween.on('finish', () => {
         state.debris = state.debris.filter(d => d !== pieceOfDebris)
@@ -193,7 +211,7 @@ const Game = (playground) => {
     }, 30)
 
     if (enemy.health < 0) {
-      // createBoom(enemy.x, enemy.y, enemy.width, enemy.height, '#31ddef')
+      createBoom(enemy.x, enemy.y, enemy.width, enemy.height, '#31ddef')
       state.enemies = state.enemies.filter(e => e !== enemy)
     }
   }
@@ -249,6 +267,7 @@ const Game = (playground) => {
   }
 
   const loseLife = () => {
+    playground.sound.play('boom')
     state.player.lives--
     if (state.player.lives < 1) {
       gameOver()
@@ -325,6 +344,7 @@ const Game = (playground) => {
   }
 
   const fireProjectile = (weaponName) => {
+    playground.sound.play('pew')
     const weapon = getWeaponObject(weaponName)
     weapon.lastShotTimestamp = getCurrentMs()
     const y = state.player.y + 10
@@ -408,7 +428,7 @@ const Game = (playground) => {
   const drawDebris = () => {
     state.debris.forEach(pieceOfDebris => {
       playground.layer.context.fillStyle = pieceOfDebris.color
-      playground.layer.context.fillRect(pieceOfDebris.x, pieceOfDebris.y, 1, 1)
+      playground.layer.context.fillRect(pieceOfDebris.x, pieceOfDebris.y, pieceOfDebris.size, pieceOfDebris.size)
     })
   }
 

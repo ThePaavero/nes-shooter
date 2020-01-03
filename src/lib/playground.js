@@ -3443,7 +3443,7 @@ PLAYGROUND.SoundWebAudioAPI.prototype = {
 
     if (alias) name = alias.source;
 
-    bufferSource = nodes[0];
+    const bufferSource = nodes[0];
     bufferSource.gainNode = nodes[1];
     bufferSource.pannerNode = nodes[2];
     bufferSource.buffer = this.buffers[name];
