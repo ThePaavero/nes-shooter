@@ -64,7 +64,7 @@ const Game = (playground) => {
       const outTween = playground.tween(enemy)
         .to({
           x: _.random(-20, playground.width + 20),
-          y: playground.height,
+          y: playground.height + 50,
         }, duration, easing)
       outTween.on('finish', () => {
         state.enemies = state.enemies.filter(e => e !== enemy)
@@ -164,8 +164,8 @@ const Game = (playground) => {
     let pixelAmount = Math.round(magnitude) * 3
     while (pixelAmount--) {
       const position = {
-        x: (x - w / 2) + _.random(spread * -1, spread),
-        y: (x - h / 2) + _.random(spread * -1, spread),
+        x: (x + w / 2) + _.random(spread * -1, spread),
+        y: (y + h / 2) + _.random(spread * -1, spread),
       }
       const pieceOfDebris = {
         x: position.x,
@@ -173,11 +173,14 @@ const Game = (playground) => {
         color,
       }
       state.debris.push(pieceOfDebris)
-      playground.tween(pieceOfDebris)
+      const tween = playground.tween(pieceOfDebris)
         .to({
           x: x += _.random(spread * -1, spread),
           y: y += _.random(spread * -1, spread),
         }, 0.3)
+      tween.on('finish', () => {
+        state.debris = state.debris.filter(d => d !== pieceOfDebris)
+      })
     }
   }
 
@@ -467,7 +470,7 @@ const Game = (playground) => {
     }
 
     // Draw shield.
-    playground.layer.drawImage(playground.images.shield, state.player.x-5, state.player.y - 10, 37, 21)
+    playground.layer.drawImage(playground.images.shield, state.player.x - 5, state.player.y - 10, 37, 21)
   }
 
   const handleAspectRatio = () => {
