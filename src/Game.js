@@ -31,7 +31,7 @@ const Game = (playground) => {
     const imageHit = playground.images[imageSlug + 'Hit']
     const enemy = {
       x: _.random(0, playground.width - enemyDimensions.width),
-      y: -50,
+      y: enemyDimensions.height * -1,
       image,
       imageHit,
       width: enemyDimensions.width,
@@ -110,9 +110,24 @@ const Game = (playground) => {
   }
 
   const updateEnemies = () => {
-    // state.enemies.forEach(enemy => {
-    //   enemy.y += state.gameSpeed / 2
-    // })
+    state.enemies.forEach(enemy => {
+      if (_.random(0, 60) === 0) {
+        enemyFires(enemy)
+      }
+    })
+  }
+
+  const enemyFires = (enemy) => {
+    const type = _.random(0, 10) === 0 ? 'Cannon' : 'Gun'
+    state.enemyProjectiles.push({
+      x: enemy.x + (enemy.width / 2),
+      y: enemy.y + (enemy.height + 2),
+      image: playground.images[`enemy${type}Bullet`],
+      width: type === 'Cannon' ? 3 : 1,
+      height: type === 'Cannon' ? 6 : 3,
+      speed: (type === 'Cannon' ? 0.5 : 1) + state.gameSpeed,
+      enemy,
+    })
   }
 
   const objectsOverlap = (a, b) => {
@@ -246,6 +261,7 @@ const Game = (playground) => {
   }
 
   const updateProjectiles = () => {
+    // Player projectiles.
     state.player.weapons.forEach(weapon => {
       weapon.projectiles.forEach(projectile => {
         projectile.y -= projectile.speed
@@ -253,6 +269,10 @@ const Game = (playground) => {
           weapon.projectiles = weapon.projectiles.filter(p => p !== projectile)
         }
       })
+    })
+    // Enemy projectiles.
+    state.enemyProjectiles.forEach(projectile => {
+      projectile.y += projectile.speed
     })
   }
 
@@ -279,10 +299,15 @@ const Game = (playground) => {
   }
 
   const drawProjectiles = () => {
+    // Player projectiles.
     state.player.weapons.forEach(weapon => {
       weapon.projectiles.forEach(projectile => {
         playground.layer.drawImage(playground.images[weapon.imageSlug], projectile.x, projectile.y, projectile.width, projectile.height)
       })
+    })
+    // Enemy projectiles.
+    state.enemyProjectiles.forEach(projectile => {
+      playground.layer.drawImage(projectile.image, projectile.x, projectile.y, projectile.width, projectile.height)
     })
   }
 
@@ -325,9 +350,11 @@ const Game = (playground) => {
   }
 
   const drawStars = () => {
+    playground.layer.context.globalAlpha = 0.5
     state.stars.forEach(star => {
       playground.layer.drawImage(star.image, star.x, star.y)
     })
+    playground.layer.context.globalAlpha = 1
   }
 
   const centerPlayer = () => {

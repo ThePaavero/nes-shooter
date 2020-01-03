@@ -44,4 +44,5 @@ export default {
   stars: [],
   enemies: [],
   debris: [],
+  enemyProjectiles: [],
 }
