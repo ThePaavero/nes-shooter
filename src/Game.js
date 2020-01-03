@@ -136,6 +136,10 @@ const Game = (playground) => {
   }
 
   const hurtPlayer = (removeHealth) => {
+    if (state.player.shieldUp) {
+      // @todo Destroy shield?
+      return
+    }
     state.player.health -= removeHealth
     state.player.hurting = true
     setTimeout(() => {
@@ -280,6 +284,10 @@ const Game = (playground) => {
     }
   }
 
+  const updateShield = () => {
+    state.player.shieldUp = (playground.keyboard.keys.comma && playground.keyboard.keys.period) || (playground.gamepads[0] && playground.gamepads[0].buttons['1'] && playground.gamepads[0].buttons['2'])
+  }
+
   const updateState = () => {
     if (!state.gameRunning) {
       return
@@ -291,6 +299,7 @@ const Game = (playground) => {
     updateWeapons()
     updateProjectiles()
     doCollisionDetection()
+    updateShield()
     // updateStick()
   }
 
@@ -303,6 +312,9 @@ const Game = (playground) => {
   }
 
   const okToFireProjectile = (weaponName) => {
+    if (state.player.shieldUp) {
+      return false
+    }
     const weapon = getWeaponObject(weaponName)
     return getCurrentMs() - weapon.lastShotTimestamp > weapon.millisecondsBetweenProjectiles
   }
@@ -447,6 +459,13 @@ const Game = (playground) => {
   const drawPlayer = () => {
     const image = playground.images[`playerShip${state.player.hurting ? 'Hit' : ''}`]
     playground.layer.drawImage(image, state.player.x, state.player.y, state.player.width, state.player.height)
+
+    if (!state.player.shieldUp) {
+      return
+    }
+
+    // Draw shield.
+    playground.layer.drawImage(playground.images.shield, state.player.x, state.player.y - 10, 33, 21)
   }
 
   const draw = () => {

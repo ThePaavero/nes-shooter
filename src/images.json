@@ -10,5 +10,6 @@
   "playerGunBullet",
   "playerShip",
   "playerShipHit",
+  "shield",
   "scanlinePattern"
 ]

@@ -13,6 +13,7 @@ export default {
     speed: 2,
     health: 1,
     hurting: false,
+    shieldUp: false,
     velocities: {
       x: 0,
       y: 0,
