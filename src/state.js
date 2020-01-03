@@ -10,6 +10,8 @@ export default {
     width: 27,
     height: 21,
     speed: 2,
+    health: 100,
+    hurting: false,
     velocities: {
       x: 0,
       y: 0,

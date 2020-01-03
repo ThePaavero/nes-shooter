@@ -134,6 +134,13 @@ const Game = (playground) => {
     })
   }
 
+  const hurtPlayer = () => {
+    state.player.hurting = true
+    setTimeout(() => {
+      state.player.hurting = false
+    }, 30)
+  }
+
   const objectsOverlap = (a, b) => {
     return !(
       ((a.y + a.height) < (b.y)) ||
@@ -181,6 +188,7 @@ const Game = (playground) => {
   }
 
   const doCollisionDetection = () => {
+    // Enemies first.
     const enemiesToTakeHit = []
     const projectilesToDestroy = []
     state.player.weapons.forEach(weapon => {
@@ -205,6 +213,13 @@ const Game = (playground) => {
       state.player.weapons.forEach(weapon => {
         weapon.projectiles = weapon.projectiles.filter(p => p !== projectile)
       })
+    })
+
+    // Player.
+    state.enemyProjectiles.forEach(projectile => {
+      if (objectsOverlap(projectile, state.player)) {
+        hurtPlayer()
+      }
     })
   }
 
@@ -371,17 +386,18 @@ const Game = (playground) => {
     playground.layer.context.fillRect(0, 0, playground.width, playground.height)
   }
 
+  const drawPlayer = () => {
+    const image = playground.images[`playerShip${state.player.hurting ? 'Hit' : ''}`]
+    playground.layer.drawImage(image, state.player.x, state.player.y, state.player.width, state.player.height)
+  }
+
   const draw = () => {
     // Clear frame.
     playground.layer.clear('#000')
-
     drawStars()
-
-    // Draw player.
-    playground.layer.drawImage(playground.images.playerShip, state.player.x, state.player.y, state.player.width, state.player.height)
-
     drawEnemies()
     drawProjectiles()
+    drawPlayer()
     drawDebris()
     if (config.drawScanLines) {
       drawScanLines()

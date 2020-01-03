@@ -8,5 +8,6 @@
   "playerCannonBullet",
   "playerGunBullet",
   "playerShip",
+  "playerShipHit",
   "scanlinePattern"
 ]
