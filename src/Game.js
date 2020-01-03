@@ -87,7 +87,7 @@ const Game = (playground) => {
   }
 
   const preloadAssets = () => {
-    playground.loadFont('VT323')
+    playground.loadFont('PixelEmulatorxq08')
     imagesArray.forEach(name => {
       playground.loadImage(name)
     })
@@ -247,10 +247,18 @@ const Game = (playground) => {
   }
 
   const drawInfoBar = () => {
-    const text = `LIVES: ${state.player.lives}`
+    const fontSize = 10
+    let text = `LIVES: ${state.player.lives}`
+    text += ` HEALTH: `
     playground.layer.fillStyle('#fff')
-    playground.layer.font('11px VT323')
-    playground.layer.fillText(text, 10, 10)
+    playground.layer.font(`${fontSize}px PixelEmulatorxq08`)
+    playground.layer.fillText(text, 10, playground.height - 20)
+    let healthIconsToDraw = Math.ceil(state.player.health * 10)
+    let offset = 3
+    while (healthIconsToDraw--) {
+      playground.layer.drawImage(playground.images.healthItem, 120 + offset, playground.height - 20)
+      offset += 4
+    }
   }
 
   const updateState = () => {
