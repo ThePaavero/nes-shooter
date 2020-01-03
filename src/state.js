@@ -5,12 +5,13 @@ export default {
   gameRunning: true,
   gameSpeed: 1,
   player: {
+    lives: 3,
     x: 0,
     y: 0,
     width: 27,
     height: 21,
     speed: 2,
-    health: 100,
+    health: 1,
     hurting: false,
     velocities: {
       x: 0,

@@ -134,7 +134,8 @@ const Game = (playground) => {
     })
   }
 
-  const hurtPlayer = () => {
+  const hurtPlayer = (removeHealth) => {
+    state.player.health -= removeHealth
     state.player.hurting = true
     setTimeout(() => {
       state.player.hurting = false
@@ -216,11 +217,32 @@ const Game = (playground) => {
     })
 
     // Player.
+    const enemyProjectilesToDestroy = []
     state.enemyProjectiles.forEach(projectile => {
+      const removeHealth = 0.2 // @todo Dynamic!
       if (objectsOverlap(projectile, state.player)) {
-        hurtPlayer()
+        enemyProjectilesToDestroy.push(projectile)
+        hurtPlayer(removeHealth)
       }
     })
+    enemyProjectilesToDestroy.forEach(projectile => {
+      state.enemyProjectiles = state.enemyProjectiles.filter(p => p !== projectile)
+    })
+    if (state.player.health < 0) {
+      loseLife()
+    }
+  }
+
+  const gameOver = () => {
+    window.alert('lol u ded')
+    window.location.reload()
+  }
+
+  const loseLife = () => {
+    state.player.lives--
+    if (state.player.lives < 1) {
+      gameOver()
+    }
   }
 
   const updateState = () => {
