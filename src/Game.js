@@ -44,14 +44,18 @@ const Game = (playground) => {
     const easing = 'inOutExpo'
     const duration = 5
 
+    const minX = -20
+    const maxX = (playground.width + 20) - enemy.width
+    const minY = -10
+
     const tween = playground.tween(enemy)
       .to({
-        x: _.random(-20, playground.width + 20),
-        y: _.random(-20, playground.height / 2),
+        x: _.random(minX, maxX),
+        y: _.random(minY, playground.height / 2),
       }, duration, easing)
       .to({
-        x: _.random(-20, playground.width + 20),
-        y: _.random(-20, playground.height - 30),
+        x: _.random(minX, maxX),
+        y: _.random(minY, playground.height - 30),
       }, duration, easing)
 
     tween.on('finish', () => {
@@ -124,7 +128,7 @@ const Game = (playground) => {
       y: enemy.y + (enemy.height + 2),
       image: playground.images[`enemy${type}Bullet`],
       width: type === 'Cannon' ? 3 : 1,
-      height: type === 'Cannon' ? 6 : 3,
+      height: type === 'Cannon' ? 6 : 5,
       speed: (type === 'Cannon' ? 0.5 : 1) + state.gameSpeed,
       enemy,
     })
@@ -278,7 +282,7 @@ const Game = (playground) => {
 
   const updateStars = () => {
     state.stars.forEach(star => {
-      const toAdd = state.gameSpeed + (star.type === 'big' ? 0.3 : 0)
+      const toAdd = (star.type === 'big' ? 0.3 : 0) + state.gameSpeed / 2
       star.y += toAdd
 
       if (star.y > playground.height) {
