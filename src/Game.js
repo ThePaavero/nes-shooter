@@ -155,18 +155,17 @@ const Game = (playground) => {
   }
 
   const enemyFires = (enemy) => {
-    console.log(enemy)
     const projectileType = enemy.projectileTypes[_.random(0, enemy.projectileTypes - 1)]
-    // console.log(projectileType)
-    // state.enemyProjectiles.push({
-    //   x: enemy.x + (enemy.width / 2),
-    //   y: enemy.y + (enemy.height + 2),
-    //   image: playground.images[`enemy${type}Bullet`],
-    //   width: type === 'Cannon' ? 3 : 1,
-    //   height: type === 'Cannon' ? 6 : 5,
-    //   speed: (type === 'Cannon' ? 0.5 : 1) + state.gameSpeed,
-    //   enemy,
-    // })
+    const projectileObject = {
+      x: enemy.x + (enemy.width / 2),
+      y: enemy.y + (enemy.height + 2),
+      image: playground.images[`enemies/${projectileType.name}`],
+      width: projectileType.width,
+      height: projectileType.height,
+      speed: projectileType.velocity,
+      enemy,
+    }
+    state.enemyProjectiles.push(projectileObject)
   }
 
   const hurtPlayer = (removeHealth) => {

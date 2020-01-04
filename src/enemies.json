@@ -8,11 +8,15 @@
     "projectileTypes": [
       {
         "name": "BlueHeavyCannonBullet",
-        "velocity": 0.2
+        "velocity": 0.2,
+        "width": 3,
+        "height": 6
       },
       {
         "name": "BlueHeavyGunBullet",
-        "velocity": 0.4
+        "velocity": 0.4,
+        "width": 1,
+        "height": 5
       }
     ],
     "choreography": {
@@ -42,7 +46,9 @@
     "projectileTypes": [
       {
         "name": "RedFastCannonBullet",
-        "velocity": 0.8
+        "velocity": 0.8,
+        "width": 3,
+        "height": 7
       }
     ],
     "choreography": {
