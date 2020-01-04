@@ -363,7 +363,7 @@ const Game = (playground) => {
 
   const updateBonusItems = () => {
     state.bonusItems.forEach(item => {
-      item.y += state.gameSpeed * 1.2
+      item.y += state.gameSpeed * 0.5
     })
   }
 
