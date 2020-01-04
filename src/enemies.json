@@ -8,13 +8,13 @@
     "projectileTypes": [
       {
         "name": "BlueHeavyCannonBullet",
-        "velocity": 0.2,
+        "velocity": 1,
         "width": 3,
         "height": 6
       },
       {
         "name": "BlueHeavyGunBullet",
-        "velocity": 0.4,
+        "velocity": 2,
         "width": 1,
         "height": 5
       }
@@ -46,7 +46,7 @@
     "projectileTypes": [
       {
         "name": "RedFastCannonBullet",
-        "velocity": 0.8,
+        "velocity": 3,
         "width": 3,
         "height": 7
       }

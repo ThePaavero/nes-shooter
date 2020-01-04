@@ -155,7 +155,7 @@ const Game = (playground) => {
   }
 
   const enemyFires = (enemy) => {
-    const projectileType = enemy.projectileTypes[_.random(0, enemy.projectileTypes - 1)]
+    const projectileType = enemy.projectileTypes[_.random(0, enemy.projectileTypes.length - 1)]
     const projectileObject = {
       x: enemy.x + (enemy.width / 2),
       y: enemy.y + (enemy.height + 2),
