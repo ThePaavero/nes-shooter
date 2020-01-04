@@ -620,7 +620,34 @@ const Game = (playground) => {
   }
 
   const drawSplashScreen = () => {
-    playground.layer.drawImage(playground.images['splash/title'], 50, 50)
+    playground.layer.drawImage(playground.images['splash/title'], 38, 10)
+
+    const lineHeight = 10
+    let y = 100
+    let x = 20
+
+    const lines = `
+Keyboard :
+* Arrow keys for moving
+* Comma for gun
+* Period for cannon.
+
+Gun and cannon combined will
+bring your shield up.
+
+Gamepad :
+* D-pad for moving
+* A for gun
+* B for cannon
+    `.split('\n')
+
+    playground.layer.fillStyle('#fff')
+    playground.layer.font(`9px PixelEmulatorxq08`)
+    lines.forEach(line => {
+      playground.layer.fillText(line, x, y)
+      y += lineHeight
+    })
+
   }
 
   const draw = () => {
