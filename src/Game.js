@@ -12,9 +12,6 @@ const Game = (playground) => {
     y: playground.height / 2,
   }
 
-  let debugTickSkips = 10
-  let debugTickCounter = 0
-
   const onReady = () => {
     setHighScoreOnReady()
     centerPlayer()
