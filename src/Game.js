@@ -193,8 +193,8 @@ const Game = (playground) => {
       return
     }
     if (state.player.shieldUp) {
-      // @todo Destroy shield?
       playground.sound.play('blip')
+      state.player.shieldHealth - 0.2
       return
     }
     state.player.health -= removeHealth
@@ -564,12 +564,14 @@ const Game = (playground) => {
     const image = playground.images[`playerShip${state.player.hurting ? 'Hit' : ''}`]
     playground.layer.drawImage(image, state.player.x, state.player.y, state.player.width, state.player.height)
 
-    if (!state.player.shieldUp) {
-      return
+    if (state.player.shieldUp) {
+      drawShield()
     }
+  }
 
-    // Draw shield.
-    playground.layer.drawImage(playground.images.shield, state.player.x - 5, state.player.y - 10, 37, 21)
+  const drawShield = () => {
+    const image = playground.images[state.player.shieldHealth > 0 ? 'shield' : 'shieldBroken']
+    playground.layer.drawImage(image, state.player.x - 5, state.player.y - 10, 37, 21)
   }
 
   const handleAspectRatio = () => {

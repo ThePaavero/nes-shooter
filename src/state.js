@@ -8,6 +8,7 @@ export default {
     points: 0,
     highscore: 0,
     lives: 3,
+    shieldHealth: 1,
     x: 0,
     y: 0,
     width: 27,
