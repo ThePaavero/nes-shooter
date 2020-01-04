@@ -3,6 +3,7 @@ import imagesArray from './images'
 import config from './config'
 import DebugView from './lib/DebugView'
 import enemies from './enemies'
+import bonusItems from './bonusItems'
 import _ from 'lodash'
 
 const Game = (playground) => {
@@ -20,6 +21,7 @@ const Game = (playground) => {
     centerPlayer()
     createStars()
     spawnEnemy()
+    spawnBonusItem()
     window.addEventListener('resize', handleAspectRatio)
     handleAspectRatio()
   }
@@ -64,6 +66,20 @@ const Game = (playground) => {
 
     // Next!
     setTimeout(spawnEnemy, _.random(100, 3000))
+  }
+
+  const spawnBonusItem = () => {
+    const randomItem = bonusItems[_.random(0, bonusItems.length - 1)]
+    state.bonusItems.push({
+      image: playground.images[`bonusItems/${randomItem.name}`],
+      x: _.random(3, playground.width - 3),
+      y: randomItem.height * -1,
+      name: randomItem.name,
+      action: randomItem.action,
+    })
+
+    // Next!
+    setTimeout(spawnBonusItem, _.random(4000, 12000))
   }
 
   const makeEnemyDance = (enemy) => {
@@ -345,6 +361,12 @@ const Game = (playground) => {
     state.player.shieldUp = (playground.keyboard.keys.comma && playground.keyboard.keys.period) || (playground.gamepads[0] && playground.gamepads[0].buttons['1'] && playground.gamepads[0].buttons['2'])
   }
 
+  const updateBonusItems = () => {
+    state.bonusItems.forEach(item => {
+      item.y += state.gameSpeed * 1.2
+    })
+  }
+
   const updateState = () => {
     if (!state.gameRunning) {
       return
@@ -357,6 +379,7 @@ const Game = (playground) => {
     updateProjectiles()
     doCollisionDetection()
     updateShield()
+    updateBonusItems()
     // updateStick()
   }
 
@@ -542,18 +565,29 @@ const Game = (playground) => {
     }
   }
 
+  const drawBonusItems = () => {
+    state.bonusItems.forEach(item => {
+      playground.layer.drawImage(item.image, item.x, item.y, item.width, item.height)
+    })
+  }
+
   const draw = () => {
+
     // Clear frame.
     playground.layer.clear('#000')
+
     drawStars()
     drawEnemies()
     drawProjectiles()
     drawPlayer()
     drawDebris()
-    drawInfoBar()
+
+    drawBonusItems()
     if (config.drawScanLines) {
       drawScanLines()
     }
+
+    drawInfoBar()
   }
 
   const onKeyUp = (data) => {

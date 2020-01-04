@@ -1,5 +1,5 @@
 {
-  "invincible": false,
+  "invincible": true,
   "width": 256,
   "height": 240,
   "scale": 1,

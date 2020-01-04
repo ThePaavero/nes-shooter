@@ -14,5 +14,6 @@
   "playerShip",
   "playerShipHit",
   "shield",
-  "scanlinePattern"
+  "scanlinePattern",
+  "bonusItems/healthUp"
 ]

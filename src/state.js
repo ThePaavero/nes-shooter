@@ -51,4 +51,5 @@ export default {
   enemies: [],
   debris: [],
   enemyProjectiles: [],
+  bonusItems: [],
 }
