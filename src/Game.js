@@ -34,7 +34,7 @@ const Game = (playground) => {
   }
 
   const getRandomEnemyObject = () => {
-    return enemies[_.random(0, enemies.length-1)]
+    return enemies[_.random(0, enemies.length - 1)]
   }
 
   const spawnEnemy = () => {
@@ -54,6 +54,7 @@ const Game = (playground) => {
       width: enemyDimensions.width,
       height: enemyDimensions.height,
       health: enemyBlueprint.health,
+      projectileTypes: enemyBlueprint.projectileTypes,
     }
     state.enemies.push(enemy)
 
@@ -154,16 +155,18 @@ const Game = (playground) => {
   }
 
   const enemyFires = (enemy) => {
-    const type = _.random(0, 10) === 0 ? 'Cannon' : 'Gun'
-    state.enemyProjectiles.push({
-      x: enemy.x + (enemy.width / 2),
-      y: enemy.y + (enemy.height + 2),
-      image: playground.images[`enemy${type}Bullet`],
-      width: type === 'Cannon' ? 3 : 1,
-      height: type === 'Cannon' ? 6 : 5,
-      speed: (type === 'Cannon' ? 0.5 : 1) + state.gameSpeed,
-      enemy,
-    })
+    console.log(enemy)
+    const projectileType = enemy.projectileTypes[_.random(0, enemy.projectileTypes - 1)]
+    // console.log(projectileType)
+    // state.enemyProjectiles.push({
+    //   x: enemy.x + (enemy.width / 2),
+    //   y: enemy.y + (enemy.height + 2),
+    //   image: playground.images[`enemy${type}Bullet`],
+    //   width: type === 'Cannon' ? 3 : 1,
+    //   height: type === 'Cannon' ? 6 : 5,
+    //   speed: (type === 'Cannon' ? 0.5 : 1) + state.gameSpeed,
+    //   enemy,
+    // })
   }
 
   const hurtPlayer = (removeHealth) => {
