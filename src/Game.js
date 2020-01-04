@@ -56,6 +56,7 @@ const Game = (playground) => {
       health: enemyBlueprint.health,
       projectileTypes: enemyBlueprint.projectileTypes,
       damageMultiplier: enemyBlueprint.damageMultiplier,
+      baseColor: enemyBlueprint.baseColor,
     }
     state.enemies.push(enemy)
 
@@ -198,7 +199,7 @@ const Game = (playground) => {
 
     playground.sound.play('boom')
 
-    const magnitude = 3
+    const magnitude = w / 10
     const spread = 10
     let pixelAmount = Math.round(magnitude) * 3
     while (pixelAmount--) {
@@ -233,7 +234,7 @@ const Game = (playground) => {
     }, 30)
 
     if (enemy.health < 0) {
-      createBoom(enemy.x, enemy.y, enemy.width, enemy.height, '#31ddef')
+      createBoom(enemy.x, enemy.y, enemy.width, enemy.height, enemy.baseColor)
       state.enemies = state.enemies.filter(e => e !== enemy)
     }
   }

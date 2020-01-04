@@ -6,6 +6,7 @@
     "height": 24,
     "baseSpeed": 0.3,
     "damageMultiplier": 1,
+    "baseColor": "#31ddef",
     "projectileTypes": [
       {
         "name": "BlueHeavyCannonBullet",
@@ -45,6 +46,7 @@
     "height": 18,
     "baseSpeed": 0.6,
     "damageMultiplier": 2,
+    "baseColor": "#a63100",
     "projectileTypes": [
       {
         "name": "RedFastCannonBullet",
