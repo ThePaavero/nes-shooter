@@ -329,7 +329,10 @@ const Game = (playground) => {
   }
 
   const gameOver = () => {
-    window.localStorage.setItem('highScore', state.player.points)
+    const highScoreOnDisk = window.localStorage.getItem('highScore')
+    if (highScoreOnDisk && Number(highScoreOnDisk) < state.player.points) {
+      window.localStorage.setItem('highScore', state.player.points)
+    }
     window.location.reload()
   }
 
@@ -408,6 +411,8 @@ const Game = (playground) => {
 
     switch (state.scene) {
       case 'splash':
+      case 'gameOver':
+      default:
         updateStars()
         if (playground.gamepads[0]) {
           const pad = playground.gamepads[0]
