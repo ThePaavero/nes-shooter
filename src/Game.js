@@ -322,6 +322,11 @@ const Game = (playground) => {
           state.player.health = 1
         }
         break
+      case 'REPAIR_SHIELD':
+        if (state.player.shieldHealth < 1) {
+          state.player.shieldHealth = 1
+        }
+        break
     }
   }
 

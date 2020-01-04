@@ -4,5 +4,11 @@
     "width": 8,
     "height": 9,
     "action": "ADD_HEALTH"
+  },
+  {
+    "name": "shieldUp",
+    "width": 8,
+    "height": 8,
+    "action": "REPAIR_SHIELD"
   }
 ]
