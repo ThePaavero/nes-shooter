@@ -63,7 +63,9 @@ const Game = (playground) => {
     makeEnemyDance(enemy)
 
     // Next!
-    setTimeout(spawnEnemy, _.random(100, 3000))
+    if (state.scene === 'game') {
+      setTimeout(spawnEnemy, _.random(100, 3000))
+    }
   }
 
   const spawnBonusItem = () => {
@@ -333,7 +335,7 @@ const Game = (playground) => {
     if (!highScoreOnDisk || Number(highScoreOnDisk) < state.player.points) {
       window.localStorage.setItem('highScore', state.player.points)
     }
-    window.location.reload()
+    changeScene('gameOver')
   }
 
   const loseLife = () => {
@@ -404,6 +406,26 @@ const Game = (playground) => {
     }
   }
 
+  const triggerPlayStartByAnyInput = (doReload = false) => {
+    if (playground.gamepads[0]) {
+      const pad = playground.gamepads[0]
+      if (Object.keys(pad.buttons).filter(buttonIndex => !!buttonIndex).length > 0) {
+        if (doReload) {
+          window.location.reload()
+          return
+        }
+        changeScene('game')
+      }
+    }
+    if (playground.keyboard.any) {
+      if (doReload) {
+        window.location.reload()
+        return
+      }
+      changeScene('game')
+    }
+  }
+
   const updateState = () => {
     if (!state.gameRunning) {
       return
@@ -411,19 +433,14 @@ const Game = (playground) => {
 
     switch (state.scene) {
       case 'splash':
-      case 'gameOver':
       default:
         updateStars()
-        if (playground.gamepads[0]) {
-          const pad = playground.gamepads[0]
-          if (Object.keys(pad.buttons).filter(buttonIndex => !!buttonIndex).length > 0) {
-            changeScene('game')
-          }
-        }
-
-        if (playground.keyboard.any) {
-          changeScene('game')
-        }
+        triggerPlayStartByAnyInput(false)
+        break
+      case 'gameOver':
+        setTimeout(() => {
+          triggerPlayStartByAnyInput(true)
+        }, 2000)
         break
       case 'game':
         updatePlayer()
