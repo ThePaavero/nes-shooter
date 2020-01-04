@@ -3,6 +3,7 @@
  */
 export default {
   scene: "splash",
+  gameOverScreenTicks: 100,
   gameRunning: true,
   gameSpeed: 1,
   player: {

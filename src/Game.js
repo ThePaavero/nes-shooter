@@ -438,9 +438,11 @@ const Game = (playground) => {
         triggerPlayStartByAnyInput(false)
         break
       case 'gameOver':
-        setTimeout(() => {
-          triggerPlayStartByAnyInput(true)
-        }, 2000)
+        updateStars()
+        state.gameOverScreenTicks--
+        if (state.gameOverScreenTicks < 0) {
+          window.location.reload()
+        }
         break
       case 'game':
         updatePlayer()
@@ -665,7 +667,27 @@ shield. Press any key or button .
       playground.layer.fillText(line, x, y)
       y += lineHeight
     })
+  }
 
+  const drawGameOverStats = () => {
+    const lineHeight = 10
+    let y = 100
+    let x = 20
+
+    const lines = `
+Game over
+
+Your score : ${state.player.points}
+
+Starting new round in ${state.gameOverAutoReloadSeconds}
+    `.split('\n')
+
+    playground.layer.fillStyle('#fff')
+    playground.layer.font(`9px PixelEmulatorxq08`)
+    lines.forEach(line => {
+      playground.layer.fillText(line, x, y)
+      y += lineHeight
+    })
   }
 
   const draw = () => {
@@ -689,6 +711,9 @@ shield. Press any key or button .
           drawScanLines()
         }
         drawInfoBar()
+        break
+      case 'gameOver':
+        drawGameOverStats()
         break
     }
   }
