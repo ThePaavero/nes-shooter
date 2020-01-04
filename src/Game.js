@@ -309,12 +309,20 @@ const Game = (playground) => {
     // Bonus items.
     state.bonusItems.forEach(item => {
       if (objectsOverlap(state.player, item)) {
-        console.log(state.player)
-        console.log(item)
+        collectBonusItems(item)
         state.bonusItems = state.bonusItems.filter(i => i !== item)
-        console.log(state.bonusItems)
       }
     })
+  }
+
+  const collectBonusItems = (item) => {
+    switch (item.action) {
+      case 'ADD_HEALTH':
+        if (state.player.health < 1) {
+          state.player.health = 1
+        }
+        break
+    }
   }
 
   const gameOver = () => {
@@ -376,6 +384,9 @@ const Game = (playground) => {
   const updateBonusItems = () => {
     state.bonusItems.forEach(item => {
       item.y += state.gameSpeed * 0.5
+      if (item.y > playground.height) {
+        state.bonusItems = state.bonusItems.filter(i => i !== item)
+      }
     })
   }
 
@@ -527,7 +538,6 @@ const Game = (playground) => {
       context.lineWidth = 1
       context.strokeRect(healthBarX, healthBarY, 20, 3)
 
-      // console.log(enemy)
       playground.layer.drawImage(enemy.hit ? enemy.imageHit : enemy.image, enemy.x, enemy.y)
     })
   }
