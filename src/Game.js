@@ -2,6 +2,7 @@ import state from './state'
 import imagesArray from './images'
 import config from './config'
 import DebugView from './lib/DebugView'
+import enemies from './enemies'
 import _ from 'lodash'
 
 const Game = (playground) => {
@@ -32,13 +33,17 @@ const Game = (playground) => {
     }
   }
 
+  const getRandomEnemyObject = () => {
+    return enemies[_.random(0, enemies.length-1)]
+  }
+
   const spawnEnemy = () => {
-    const enemyType = 'BlueHeavy'
+    const enemyBlueprint = getRandomEnemyObject()
     const enemyDimensions = {
-      width: 33,
-      height: 24,
+      width: enemyBlueprint.width,
+      height: enemyBlueprint.height,
     }
-    const imageSlug = `enemy${enemyType}`
+    const imageSlug = `enemies/${enemyBlueprint.name}`
     const image = playground.images[imageSlug]
     const imageHit = playground.images[imageSlug + 'Hit']
     const enemy = {
@@ -48,10 +53,17 @@ const Game = (playground) => {
       imageHit,
       width: enemyDimensions.width,
       height: enemyDimensions.height,
-      health: 1,
+      health: enemyBlueprint.health,
     }
     state.enemies.push(enemy)
 
+    makeEnemyDance(enemy)
+
+    // Next!
+    setTimeout(spawnEnemy, _.random(100, 3000))
+  }
+
+  const makeEnemyDance = (enemy) => {
     // Movement with tweens.
     const easing = 'inOutExpo'
     const duration = 5
@@ -80,9 +92,6 @@ const Game = (playground) => {
         state.enemies = state.enemies.filter(e => e !== enemy)
       })
     })
-
-    // Next!
-    setTimeout(spawnEnemy, _.random(100, 3000))
   }
 
   const createStars = () => {
@@ -479,6 +488,7 @@ const Game = (playground) => {
       context.lineWidth = 1
       context.strokeRect(healthBarX, healthBarY, 20, 3)
 
+      // console.log(enemy)
       playground.layer.drawImage(enemy.hit ? enemy.imageHit : enemy.image, enemy.x, enemy.y)
     })
   }

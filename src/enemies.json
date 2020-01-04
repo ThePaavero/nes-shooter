@@ -9,6 +9,10 @@
       {
         "name": "BlueHeavyCannonBullet",
         "velocity": 0.2
+      },
+      {
+        "name": "BlueHeavyGunBullet",
+        "velocity": 0.4
       }
     ],
     "choreography": {
@@ -24,6 +28,36 @@
           "y": [
             0,
             100
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "RedFast",
+    "health": 1,
+    "width": 29,
+    "height": 18,
+    "baseSpeed": 0.6,
+    "projectileTypes": [
+      {
+        "name": "RedFastCannonBullet",
+        "velocity": 0.8
+      }
+    ],
+    "choreography": {
+      "easing": "inOutExpo",
+      "stepDuration": 2,
+      "stepAmount": 6,
+      "step": [
+        {
+          "x": [
+            0,
+            256
+          ],
+          "y": [
+            0,
+            130
           ]
         }
       ]
