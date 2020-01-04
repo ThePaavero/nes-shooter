@@ -74,6 +74,8 @@ const Game = (playground) => {
       image: playground.images[`bonusItems/${randomItem.name}`],
       x: _.random(3, playground.width - 3),
       y: randomItem.height * -1,
+      width: randomItem.width,
+      height: randomItem.height,
       name: randomItem.name,
       action: randomItem.action,
     })
@@ -303,6 +305,16 @@ const Game = (playground) => {
       state.player.health = 1
       loseLife()
     }
+
+    // Bonus items.
+    state.bonusItems.forEach(item => {
+      if (objectsOverlap(state.player, item)) {
+        console.log(state.player)
+        console.log(item)
+        state.bonusItems = state.bonusItems.filter(i => i !== item)
+        console.log(state.bonusItems)
+      }
+    })
   }
 
   const gameOver = () => {
