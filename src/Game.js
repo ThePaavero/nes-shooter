@@ -330,7 +330,7 @@ const Game = (playground) => {
 
   const gameOver = () => {
     const highScoreOnDisk = window.localStorage.getItem('highScore')
-    if (highScoreOnDisk && Number(highScoreOnDisk) < state.player.points) {
+    if (!highScoreOnDisk || Number(highScoreOnDisk) < state.player.points) {
       window.localStorage.setItem('highScore', state.player.points)
     }
     window.location.reload()
