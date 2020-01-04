@@ -8191,7 +8191,7 @@ PLAYGROUND.LoadingScreen = {
     this.app.layer.save();
     this.app.layer.align(0.5, 0.5);
     this.app.layer.globalCompositeOperation("lighter");
-    this.app.layer.drawImage(this.logo, this.app.center.x, this.app.center.y);
+    // this.app.layer.drawImage(this.logo, this.app.center.x, this.app.center.y);
 
     var w = this.current * this.logo.width;
 

@@ -1,7 +1,6 @@
 import state from './state'
 import imagesArray from './images'
 import config from './config'
-import DebugView from './lib/DebugView'
 import enemies from './enemies'
 import bonusItems from './bonusItems'
 import _ from 'lodash'
@@ -440,7 +439,8 @@ const Game = (playground) => {
       case 'gameOver':
         updateStars()
         state.gameOverScreenTicks--
-        if (state.gameOverScreenTicks < 0) {
+        if (state.gameOverScreenTicks < 1) {
+          state.gameOverScreenTicks = 0
           window.location.reload()
         }
         break
@@ -679,7 +679,7 @@ Game over
 
 Your score : ${state.player.points}
 
-Starting new round in ${state.gameOverAutoReloadSeconds}
+Starting new round in ${Math.round(state.gameOverScreenTicks / 60)}
     `.split('\n')
 
     playground.layer.fillStyle('#fff')
