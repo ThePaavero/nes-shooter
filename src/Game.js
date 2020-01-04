@@ -619,23 +619,33 @@ const Game = (playground) => {
     })
   }
 
+  const drawSplashScreen = () => {
+    playground.layer.drawImage(playground.images['splash/title'], 50, 50)
+  }
+
   const draw = () => {
 
     // Clear frame.
     playground.layer.clear('#000')
 
     drawStars()
-    drawEnemies()
-    drawProjectiles()
-    drawPlayer()
-    drawDebris()
 
-    drawBonusItems()
-    if (config.drawScanLines) {
-      drawScanLines()
+    switch (state.scene) {
+      case 'splash':
+        drawSplashScreen()
+        break
+      case 'game':
+        drawEnemies()
+        drawProjectiles()
+        drawPlayer()
+        drawDebris()
+        drawBonusItems()
+        if (config.drawScanLines) {
+          drawScanLines()
+        }
+        drawInfoBar()
+        break
     }
-
-    drawInfoBar()
   }
 
   const onKeyUp = (data) => {

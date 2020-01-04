@@ -17,5 +17,6 @@
   "shieldBroken",
   "scanlinePattern",
   "bonusItems/healthUp",
-  "bonusItems/shieldUp"
+  "bonusItems/shieldUp",
+  "splash/title"
 ]
