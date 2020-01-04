@@ -507,17 +507,6 @@ const Game = (playground) => {
     })
   }
 
-  const updateDebugView = () => {
-    if (!config.debugState) {
-      return
-    }
-    debugTickCounter++
-    if (debugTickCounter === debugTickSkips) {
-      DebugView.update(state)
-      debugTickCounter = 0
-    }
-  }
-
   const drawProjectiles = () => {
     // Player projectiles.
     state.player.weapons.forEach(weapon => {
@@ -635,17 +624,17 @@ const Game = (playground) => {
 
     const lines = `
 Keyboard :
-* Arrow keys for moving
-* Comma for gun
-* Period for cannon.
-
-Gun and cannon combined will
-bring your shield up.
-
+■ Arrow keys for moving
+■ Comma for gun
+■ Period for cannon.
+---
 Gamepad :
-* D-pad for moving
-* A for gun
-* B for cannon
+■ D-pad for moving
+■ A for gun
+■ B for cannon
+
+Gun and cannon combined activates
+shield. Press any key or button .
     `.split('\n')
 
     playground.layer.fillStyle('#fff')
