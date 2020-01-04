@@ -55,6 +55,7 @@ const Game = (playground) => {
       height: enemyDimensions.height,
       health: enemyBlueprint.health,
       projectileTypes: enemyBlueprint.projectileTypes,
+      damageMultiplier: enemyBlueprint.damageMultiplier,
     }
     state.enemies.push(enemy)
 
@@ -224,7 +225,7 @@ const Game = (playground) => {
   }
 
   const punishEnemy = (enemy, projectile) => {
-    enemy.health -= projectile.weapon.damage
+    enemy.health -= projectile.weapon.damage * enemy.damageMultiplier
 
     enemy.hit = true
     setTimeout(() => {
