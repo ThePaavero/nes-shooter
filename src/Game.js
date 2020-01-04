@@ -395,20 +395,31 @@ const Game = (playground) => {
     })
   }
 
+  const changeScene = (into) => {
+    state.scene = into
+  }
+
   const updateState = () => {
     if (!state.gameRunning) {
       return
     }
-    updatePlayer()
-    updateEnemies()
-    updateStars()
-    updateDebugView()
-    updateWeapons()
-    updateProjectiles()
-    doCollisionDetection()
-    updateShield()
-    updateBonusItems()
-    // updateStick()
+
+    switch (state.scene) {
+      case 'splash':
+        updateStars()
+        // if() xxxxxxxxxxxxx
+        break
+      case 'game':
+        updatePlayer()
+        updateEnemies()
+        updateStars()
+        updateWeapons()
+        updateProjectiles()
+        doCollisionDetection()
+        updateShield()
+        updateBonusItems()
+        break
+    }
   }
 
   const getWeaponObject = (weaponName) => {

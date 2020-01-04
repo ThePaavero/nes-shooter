@@ -2,6 +2,7 @@
  * Your Game's state object. Feel free to split it up if your state is complicated/large.
  */
 export default {
+  scene: "splash",
   gameRunning: true,
   gameSpeed: 1,
   player: {
