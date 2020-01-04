@@ -194,7 +194,7 @@ const Game = (playground) => {
     }
     if (state.player.shieldUp) {
       playground.sound.play('blip')
-      state.player.shieldHealth - 0.2
+      state.player.shieldHealth -= 0.2
       return
     }
     state.player.health -= removeHealth
@@ -570,6 +570,7 @@ const Game = (playground) => {
   }
 
   const drawShield = () => {
+    console.log(state.player.shieldHealth)
     const image = playground.images[state.player.shieldHealth > 0 ? 'shield' : 'shieldBroken']
     playground.layer.drawImage(image, state.player.x - 5, state.player.y - 10, 37, 21)
   }
