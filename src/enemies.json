@@ -1,0 +1,32 @@
+[
+  {
+    "name": "BlueHeavy",
+    "health": 1,
+    "width": 33,
+    "height": 24,
+    "baseSpeed": 0.3,
+    "projectileTypes": [
+      {
+        "name": "BlueHeavyCannonBullet",
+        "velocity": 0.2
+      }
+    ],
+    "choreography": {
+      "easing": "inOutExpo",
+      "stepDuration": 5,
+      "stepAmount": 3,
+      "step": [
+        {
+          "x": [
+            0,
+            256
+          ],
+          "y": [
+            0,
+            100
+          ]
+        }
+      ]
+    }
+  }
+]

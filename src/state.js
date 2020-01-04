@@ -5,6 +5,8 @@ export default {
   gameRunning: true,
   gameSpeed: 1,
   player: {
+    points: 0,
+    highscore: 0,
     lives: 3,
     x: 0,
     y: 0,

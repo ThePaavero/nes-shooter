@@ -15,11 +15,21 @@ const Game = (playground) => {
   let debugTickCounter = 0
 
   const onReady = () => {
+    setHighScoreOnReady()
     centerPlayer()
     createStars()
     spawnEnemy()
     window.addEventListener('resize', handleAspectRatio)
     handleAspectRatio()
+  }
+
+  const setHighScoreOnReady = () => {
+    const highScoreOnDisk = window.localStorage.getItem('highScore')
+    if (Number(highScoreOnDisk) > 0) {
+      state.player.highScore = Number(highScoreOnDisk)
+    } else {
+      state.player.highScore = 0
+    }
   }
 
   const spawnEnemy = () => {
@@ -242,6 +252,10 @@ const Game = (playground) => {
       state.player.weapons.forEach(weapon => {
         weapon.projectiles = weapon.projectiles.filter(p => p !== projectile)
       })
+      state.player.points += 10
+      if (state.player.points > state.player.highScore) {
+        state.player.highScore = state.player.points
+      }
     })
 
     // Player.
@@ -263,6 +277,7 @@ const Game = (playground) => {
   }
 
   const gameOver = () => {
+    window.localStorage.setItem('highScore', state.player.points)
     window.location.reload()
   }
 
@@ -276,11 +291,16 @@ const Game = (playground) => {
 
   const drawInfoBar = () => {
     const fontSize = 10
+
     let text = `LIVES: ${state.player.lives}`
     text += ` HEALTH: `
     playground.layer.fillStyle('#fff')
     playground.layer.font(`${fontSize}px PixelEmulatorxq08`)
     playground.layer.fillText(text, 10, playground.height - 20)
+
+    playground.layer.fillText(`POINTS ${state.player.points}`, 10, 10)
+    playground.layer.fillText(`HIGHSCORE ${state.player.highScore}`, playground.width - 120, 10)
+
     let healthIconsToDraw = Math.ceil(state.player.health * 10)
     let offset = 3
     while (healthIconsToDraw--) {
