@@ -577,6 +577,10 @@ const Game = (playground) => {
   const drawShield = () => {
     const image = playground.images[state.player.shieldHealth > 0 ? 'shield' : 'shieldBroken']
     playground.layer.drawImage(image, state.player.x - 5, state.player.y - 10, 37, 21)
+    playground.layer.fillStyle('#fff')
+    playground.layer.font(`10px PixelEmulatorxq08`)
+    const text = state.player.shieldHealth < 0 ? 'X' : Math.round(state.player.shieldHealth * 10)
+    playground.layer.fillText(text, state.player.x - 10, state.player.y - 7)
   }
 
   const handleAspectRatio = () => {
