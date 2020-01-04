@@ -409,6 +409,13 @@ const Game = (playground) => {
     switch (state.scene) {
       case 'splash':
         updateStars()
+        if (playground.gamepads[0]) {
+          const pad = playground.gamepads[0]
+          if (Object.keys(pad.buttons).filter(buttonIndex => !!buttonIndex).length > 0) {
+            changeScene('game')
+          }
+        }
+
         if (playground.keyboard.any) {
           changeScene('game')
         }
