@@ -439,7 +439,7 @@ const Game = (playground) => {
       case 'gameOver':
         updateStars()
         state.gameOverScreenTicks--
-        if (state.gameOverScreenTicks < 1) {
+        if (state.gameOverScreenTicks < 0) {
           state.gameOverScreenTicks = 0
           window.location.reload()
         }
