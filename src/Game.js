@@ -20,8 +20,6 @@ const Game = (playground) => {
     setHighScoreOnReady()
     centerPlayer()
     createStars()
-    spawnEnemy()
-    spawnBonusItem()
     window.addEventListener('resize', handleAspectRatio)
     handleAspectRatio()
   }
@@ -397,6 +395,10 @@ const Game = (playground) => {
 
   const changeScene = (into) => {
     state.scene = into
+    if (into === 'game') {
+      spawnEnemy()
+      spawnBonusItem()
+    }
   }
 
   const updateState = () => {
@@ -407,7 +409,9 @@ const Game = (playground) => {
     switch (state.scene) {
       case 'splash':
         updateStars()
-        // if() xxxxxxxxxxxxx
+        if (playground.keyboard.any) {
+          changeScene('game')
+        }
         break
       case 'game':
         updatePlayer()
