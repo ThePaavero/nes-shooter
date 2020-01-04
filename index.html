@@ -43,9 +43,23 @@
     .state-debugger pre {
       pointer-events: none;
     }
+
+    .overlay {
+      pointer-events: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-image: url("images/non-canvas/overlay.png");
+      z-index: 10000;
+      background-blend-mode: overlay;
+    }
+
   </style>
 </head>
 <body>
+<div class="overlay"></div>
 <div id="game"></div>
 <div class="state-debugger"></div>
 <script type="text/javascript" src="dist/bundle.js"></script>
