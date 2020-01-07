@@ -565,7 +565,7 @@ const Game = (playground) => {
       const healthBarWidth = enemy.health * 20
       context.fillRect(healthBarX, healthBarY, healthBarWidth, 3)
 
-      context.strokeStyle = "#fff"
+      context.strokeStyle = '#fff'
       context.lineWidth = 1
       context.strokeRect(healthBarX, healthBarY, 20, 3)
 
