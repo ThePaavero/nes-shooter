@@ -3,6 +3,7 @@ import imagesArray from './images'
 import config from './config'
 import enemies from './enemies'
 import bonusItems from './bonusItems'
+import sounds from './sounds'
 import _ from 'lodash'
 
 const Game = (playground) => {
@@ -11,9 +12,6 @@ const Game = (playground) => {
     x: playground.width / 2,
     y: playground.height / 2,
   }
-
-  let debugTickSkips = 10
-  let debugTickCounter = 0
 
   const onReady = () => {
     setHighScoreOnReady()
@@ -128,17 +126,10 @@ const Game = (playground) => {
   }
 
   const preloadAssets = () => {
-
-    [
-      'boom',
-      'blip',
-      'pew',
-    ].forEach(soundFile => {
+    sounds.forEach(soundFile => {
       playground.loadSounds(soundFile)
     })
-
     playground.loadFont('PixelEmulatorxq08')
-
     imagesArray.forEach(name => {
       playground.loadImage(name)
     })
