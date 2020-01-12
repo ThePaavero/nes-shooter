@@ -4,7 +4,6 @@ import config from './config'
 import enemies from './enemies'
 import sounds from './sounds'
 import bonusItems from './bonusItems'
-import sounds from './sounds'
 import _ from 'lodash'
 
 const Game = (playground) => {
