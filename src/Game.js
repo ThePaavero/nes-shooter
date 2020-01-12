@@ -4,6 +4,7 @@ import config from './config'
 import enemies from './enemies'
 import sounds from './sounds'
 import bonusItems from './bonusItems'
+import sounds from './sounds'
 import _ from 'lodash'
 
 const Game = (playground) => {
@@ -129,9 +130,7 @@ const Game = (playground) => {
     sounds.forEach(soundFile => {
       playground.loadSounds(soundFile)
     })
-
     playground.loadFont('PixelEmulatorxq08')
-
     imagesArray.forEach(name => {
       playground.loadImage(name)
     })
@@ -567,7 +566,7 @@ const Game = (playground) => {
       const healthBarWidth = enemy.health * 20
       context.fillRect(healthBarX, healthBarY, healthBarWidth, 3)
 
-      context.strokeStyle = "#fff"
+      context.strokeStyle = '#fff'
       context.lineWidth = 1
       context.strokeRect(healthBarX, healthBarY, 20, 3)
 
