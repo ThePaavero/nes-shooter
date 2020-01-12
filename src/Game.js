@@ -2,6 +2,7 @@ import state from './state'
 import imagesArray from './images'
 import config from './config'
 import enemies from './enemies'
+import sounds from './sounds'
 import bonusItems from './bonusItems'
 import _ from 'lodash'
 
@@ -125,12 +126,7 @@ const Game = (playground) => {
   }
 
   const preloadAssets = () => {
-
-    [
-      'boom',
-      'blip',
-      'pew',
-    ].forEach(soundFile => {
+    sounds.forEach(soundFile => {
       playground.loadSounds(soundFile)
     })
 
